@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/test_cuda.iml" filepath="$PROJECT_DIR$/.idea/test_cuda.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/Image_inpainting_with_Autoencoder_GPU.iml" filepath="$PROJECT_DIR$/.idea/Image_inpainting_with_Autoencoder_GPU.iml" />
     </modules>
   </component>
 </project>
