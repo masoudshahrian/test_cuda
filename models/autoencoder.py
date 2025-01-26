@@ -3,12 +3,12 @@ import torch.nn as nn
 
 
 class Autoencoder(nn.Module):
-    def __init__(self, input_shape=(3, 64, 128)):  # ارتفاع 64، عرض 128
+    def __init__(self, input_shape=(3, 64, 128)):  # size of images ارتفاع 64، عرض 128
         super(Autoencoder, self).__init__()
         self.input_shape = input_shape
 
         # --------------------------
-        #         انکودر
+        #        encoder انکودر
         # --------------------------
         self.encoder_conv = nn.Sequential(
             nn.Conv2d(3, 64, kernel_size=3, padding=1),
@@ -20,31 +20,31 @@ class Autoencoder(nn.Module):
             nn.MaxPool2d(2, 2),  # خروجی: (128, 16, 32)
         )
 
-        # محاسبه خودکار اندازه تخت‌شده
+        #automaticly calculate size of images- محاسبه خودکار اندازه تخت‌شده
         self.flattened_size = self._calculate_flattened_size()
         self.encoder_fc = nn.Linear(self.flattened_size, 256)
 
         # --------------------------
-        #         دیکودر
+        #        decoder دیکودر
         # --------------------------
         self.decoder = nn.Sequential(
             nn.Linear(256, self.flattened_size),
-            nn.Unflatten(1, (128, 16, 32)),  # مطابق خروجی انکودر
+            nn.Unflatten(1, (128, 16, 32)),  #same as encoder output- مطابق خروجی انکودر
 
             nn.ConvTranspose2d(
                 128, 64, kernel_size=3, stride=2,
                 padding=1, output_padding=(1, 1)
             ),
-            nn.ReLU(),  # خروجی: (64, 32, 64)
+            nn.ReLU(),  #  size of outputخروجی: (64, 32, 64)
 
             nn.ConvTranspose2d(
                 64, 32, kernel_size=3, stride=2,
                 padding=1, output_padding=(1, 1)
             ),
-            nn.ReLU(),  # خروجی: (32, 64, 128)
+            nn.ReLU(),  #size of output- خروجی: (32, 64, 128)
 
             nn.Conv2d(32, 3, kernel_size=3, padding=1),
-            nn.Sigmoid()  # خروجی: (3, 64, 128)
+            nn.Sigmoid()  # output- خروجی: (3, 64, 128)
         )
 
     def _calculate_flattened_size(self):
@@ -63,11 +63,11 @@ class Autoencoder(nn.Module):
 
 # تست مدل
 if __name__ == "__main__":
-    model = Autoencoder(input_shape=(3, 64, 128))  # ورودی نیمه بالایی
-    dummy_input = torch.randn(16, 3, 64, 128)  # ابعاد: (64, 128)
+    model = Autoencoder(input_shape=(3, 64, 128))  #set the upper side ورودی نیمه بالایی
+    dummy_input = torch.randn(16, 3, 64, 128)  # size of output-ابعاد: (64, 128)
     output = model(dummy_input)
     print(f"ورودی: {dummy_input.shape}")
-    print(f"خروجی: {output.shape}")  # باید (16, 3, 64, 128) باشد
+    print(f"خروجی: {output.shape}")  #output size- باید (16, 3, 64, 128) باشد
 
 
 

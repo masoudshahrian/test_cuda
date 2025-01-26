@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 def save_model(model, path):
     """
     ذخیره مدل آموزش‌داده‌شده در فایل
+    saving the trained model
     """
     torch.save(model.state_dict(), path)
     print(f"Model saved to {path}")
@@ -12,6 +13,7 @@ def save_model(model, path):
 def load_model(model, path, device):
     """
     بارگذاری مدل ذخیره‌شده از فایل
+    loading saved model
     """
     if os.path.exists(path):
         model.load_state_dict(torch.load(path, map_location=device))
@@ -23,6 +25,7 @@ def load_model(model, path, device):
 def visualize_results(upper_half, lower_half, predictions, n=5):
     """
     نمایش تصاویر ورودی، خروجی واقعی و خروجی پیش‌بینی‌شده
+    show the real image, real output and predicted output
     """
     for i in range(min(n, upper_half.size(0))):
         plt.subplot(3, n, i + 1)
